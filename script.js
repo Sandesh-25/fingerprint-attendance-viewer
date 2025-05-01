@@ -1,20 +1,19 @@
-const sheetID = "YOUR_SHEET_ID";
+const sheetID = "1QZ88osDtOv5kzd4E_U1YrVAJwF-ReTIw305AGr5LoGo";
 const sheetName = "Sheet1";
-const url = https://docs.google.com/spreadsheets/d/e/2PACX-1vSl2X5iANv--GC5dh3Q_4UzZoGfqe-SjcFfUFijPfejLWlknVRnqkyNyov2Oky5HApBtCNlTdIN3wXC/pub?output=csv;
+const url = `https://docs.google.com/spreadsheets/d/e/2PACX-1vSl2X5iANv--GC5dh3Q_4UzZoGfqe-SjcFfUFijPfejLWlknVRnqkyNyov2Oky5HApBtCNlTdIN3wXC/pub?output=csv`;
 
 let fullData = [];
 
 fetch(url)
   .then(res => res.text())
-  .then(rep => {
-    const jsonData = JSON.parse(rep.substr(47).slice(0, -2));
-    const rows = jsonData.table.rows;
-
+  .then(csvData => {
+    const rows = csvToArray(csvData);
+    
     fullData = rows.map(row => ({
-      name: row.c[0]?.v || "",
-      roll: row.c[1]?.v || "",
-      date: row.c[2]?.v || "",
-      time: row.c[3]?.v || ""
+      name: row[0] || "",
+      roll: row[1] || "",
+      date: row[2] || "",
+      time: row[3] || ""
     }));
 
     renderTable(fullData);
@@ -57,3 +56,10 @@ function applyFilter() {
 
   renderTable(filtered);
 }
+
+// Helper function to convert CSV data into an array of rows
+function csvToArray(csv) {
+  const rows = csv.split("\n");
+  return rows.map(row => row.split(","));
+}
+
