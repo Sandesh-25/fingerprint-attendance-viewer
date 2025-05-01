@@ -10,10 +10,10 @@ fetch(url)
     const rows = csvToArray(csvData);
     
     fullData = rows.map(row => ({
-      name: row[0] || "",
-      roll: row[1] || "",
-      date: row[2] || "",
-      time: row[3] || ""
+      Name: row[0] || "",
+      Roll: row[1] || "",
+      Date: row[2] || "",
+      Time: row[3] || ""
     }));
 
     renderTable(fullData);
@@ -48,9 +48,9 @@ function applyFilter() {
   }
 
   const filtered = fullData.filter(entry => {
-    if (filterType === "name") return entry.name.toLowerCase().includes(filterValue);
-    if (filterType === "roll") return entry.roll.toString().toLowerCase().includes(filterValue);
-    if (filterType === "date") return entry.date.toLowerCase().includes(filterValue);
+    if (filterType === "Name") return entry.name.toLowerCase().includes(filterValue);
+    if (filterType === "Roll") return entry.roll.toString().toLowerCase().includes(filterValue);
+    if (filterType === "Date") return entry.date.toLowerCase().includes(filterValue);
     return true;
   });
 
