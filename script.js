@@ -1,6 +1,6 @@
 const sheetID = "1QZ88osDtOv5kzd4E_U1YrVAJwF-ReTIw305AGr5LoGo";
 const sheetName = "Sheet1";
-const url = `https://docs.google.com/spreadsheets/d/e/2PACX-1vSl2X5iANv--GC5dh3Q_4UzZoGfqe-SjcFfUFijPfejLWlknVRnqkyNyov2Oky5HApBtCNlTdIN3wXC/pub?output=csv`;
+const url = `https://docs.google.com/spreadsheets/d/e/2PACX-1vSl2X5iANv--GC5dh3Q_4UzZoGfqe-SjcFfUFijPfejLWlknVRnqkyNyov2Oky5HApBtCNlTdIN3wXC/pub?output=csv&timestamp=${new Date().getTime()}`;
 
 let fullData = [];
 
