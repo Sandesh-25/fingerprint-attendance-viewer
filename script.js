@@ -1,5 +1,3 @@
-const sheetID = "1QZ88osDtOv5kzd4E_U1YrVAJwF-ReTIw305AGr5LoGo";
-const sheetName = "Sheet1";
 const url = `https://docs.google.com/spreadsheets/d/e/2PACX-1vSl2X5iANv--GC5dh3Q_4UzZoGfqe-SjcFfUFijPfejLWlknVRnqkyNyov2Oky5HApBtCNlTdIN3wXC/pub?output=csv&timestamp=${new Date().getTime()}`;
 
 let fullData = [];
@@ -7,13 +5,13 @@ let fullData = [];
 fetch(url)
   .then(res => res.text())
   .then(csvData => {
-    const rows = csvToArray(csvData);
-    
+    const rows = csvToArray(csvData).filter(row => row.length >= 4 && row.some(cell => cell.trim() !== ""));
+
     fullData = rows.map(row => ({
-      Name: row[0] || "",
-      Roll: row[1] || "",
-      Date: row[2] || "",
-      Time: row[3] || ""
+      name: row[0]?.trim() || "N/A",
+      roll: row[1]?.trim() || "N/A",
+      date: row[2]?.trim() || "N/A",
+      time: row[3]?.trim() || "N/A"
     }));
 
     renderTable(fullData);
@@ -39,7 +37,7 @@ filterOption.addEventListener("change", () => {
 });
 
 function applyFilter() {
-  const filterType = filterOption.value;
+  const filterType = filterOption.value.toLowerCase();
   const filterValue = filterInput.value.toLowerCase();
 
   if (filterType === "all" || filterValue === "") {
@@ -48,18 +46,17 @@ function applyFilter() {
   }
 
   const filtered = fullData.filter(entry => {
-    if (filterType === "Name") return entry.name.toLowerCase().includes(filterValue);
-    if (filterType === "Roll") return entry.roll.toString().toLowerCase().includes(filterValue);
-    if (filterType === "Date") return entry.date.toLowerCase().includes(filterValue);
+    if (filterType === "name") return entry.name.toLowerCase().includes(filterValue);
+    if (filterType === "roll") return entry.roll.toLowerCase().includes(filterValue);
+    if (filterType === "date") return entry.date.toLowerCase().includes(filterValue);
     return true;
   });
 
   renderTable(filtered);
 }
 
-// Helper function to convert CSV data into an array of rows
+// Basic CSV to array converter
 function csvToArray(csv) {
-  const rows = csv.split("\n");
+  const rows = csv.trim().split("\n");
   return rows.map(row => row.split(","));
 }
-
